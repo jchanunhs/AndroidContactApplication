@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">TermProject</string>
+    <string-array name="type">
+        <item>Home</item>
+        <item>Mobile</item>
+        <item>Work</item>
+    </string-array>
+    <string name="spinner_prompt">"Select Phone Type"</string>
+</resources>
