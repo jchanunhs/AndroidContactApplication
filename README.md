@@ -18,3 +18,4 @@ EditContacts Activity
 - Contact name and number will be displayed by default.
 - Spinner position for phone type will also be set to the user's default phone type.
 - Once information is edited and saved, EditContact activity will close and display MainActivity.
+- Activity is also used to AddContact.
