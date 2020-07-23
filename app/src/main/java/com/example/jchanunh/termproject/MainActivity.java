@@ -19,105 +19,12 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    //Database
-    public static class MyDBHandler extends SQLiteOpenHelper {
-
-        //Datatype values used for database
-        private static final int DATABASE_VERSION = 1;
-        private static final String DATABASE_NAME = "Phone.db";
-        public static final String ID = "ID";
-        public static final String TABLE = "PhoneBook";
-        public static final String NAME = "Name";
-        public static final String NUMBER = "PhoneNumber";
-        public static final String PHONETYPE = "PhoneType";
-
-        public MyDBHandler(Context context) {
-            super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        }
-
-        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            db.execSQL("DROP TABLE IF EXISTS " + TABLE);
-            onCreate(db);
-        }
-
-        //Create Table
-        public void onCreate(SQLiteDatabase db) {
-            String CREATE_TABLE = "CREATE TABLE " + TABLE + "("
-                    + ID + " INTEGER PRIMARY KEY, "                 //0
-                    + NUMBER + " TEXT, "                            //1
-                    + NAME + " TEXT, "                              //2
-                    + PHONETYPE + " TEXT)";                         //3
-            db.execSQL(CREATE_TABLE);
-        }
-
-        //Save user information and place to database
-        public void saveInfo(String name, String number, String type) {
-            String selection = NUMBER + " = ? ";
-            String[] selectionArgs = { number };
-            SQLiteDatabase db = this.getWritableDatabase();
-            db.delete(TABLE,selection,selectionArgs);
-            ContentValues values = new ContentValues();
-            values.put(NAME, name);
-            values.put(NUMBER, number);
-            values.put(PHONETYPE, type);
-            db.insert(TABLE, null, values);  // save the new record
-            db.close();
-        }
-
-        //To get the cursor for populating listview
-        public Cursor getList() {
-            SQLiteDatabase db = this.getWritableDatabase();
-            Cursor info = db.rawQuery("SELECT * FROM " + TABLE, null);
-            return info;
-        }
-
-        //Reads database based on phone name
-        public Cursor readInfo(String number){
-            String query = "Select * FROM " + TABLE + " WHERE "
-                    + NUMBER + " =  \"" + number + "\"";
-
-            SQLiteDatabase db = this.getWritableDatabase();
-            Cursor info = db.rawQuery(query,null);
-            return info;
-        }
-
-
-        //Deletes row based on specified phone number
-        public void deleteInfo(String number){
-            String selection = NUMBER + " = ? ";
-            String[] selectionArgs = { number };
-            SQLiteDatabase db = this.getWritableDatabase();
-            db.delete(TABLE,selection,selectionArgs);
-        }
-
-        // For textfield to read pattern
-        public Cursor readPatternName(String name) {
-            String query = "Select * FROM " + TABLE + " WHERE "
-                    + NAME + " LIKE  \"" + name+ "%" + "\"";
-            SQLiteDatabase db = this.getWritableDatabase();
-
-            StringBuilder s = new StringBuilder();
-            Cursor cursor = db.rawQuery(query, null);
-            if(name.equals(" ")){
-                return(getList()); //If textfield is empty then we display previous listview
-            }
-            else{
-                return cursor;
-            }
-
-        }
-
-
-
-    }
-
     //Db handler and array list to store name and number
-    MyDBHandler dbHandler ;
+    DatabaseHandler dbHandler = new DatabaseHandler(this);
     ArrayList<String> phonebook = new ArrayList<>(); //Name
     ArrayList <String> phonenumber = new ArrayList<>(); //Number
     ArrayList <String> textinput = new ArrayList<>(); //Updated listview names
@@ -139,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
         list = (ListView) findViewById(R.id.listview);
 
         //Cursor calls the getList method to populate listview
-        dbHandler = new MyDBHandler(this);
         final ArrayAdapter adapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,phonebook);
         Cursor cursor = dbHandler.getList();
         while (cursor.moveToNext()) {

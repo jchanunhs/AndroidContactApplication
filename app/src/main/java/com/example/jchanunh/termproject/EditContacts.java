@@ -9,7 +9,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 public class EditContacts extends AppCompatActivity {
-    MainActivity.MyDBHandler dbHandler = new MainActivity.MyDBHandler(this);
+    DatabaseHandler dbHandler = new DatabaseHandler(this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

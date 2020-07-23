@@ -1,4 +1,5 @@
 package com.example.jchanunh.termproject;
+
 import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 
 public class DisplayContacts extends AppCompatActivity {
 
-    MainActivity.MyDBHandler dbHandler = new MainActivity.MyDBHandler(this);
+    DatabaseHandler dbHandler = new DatabaseHandler(this);
     String queryname = " ";
     String querynumber =" ";
     String querytype = " ";
