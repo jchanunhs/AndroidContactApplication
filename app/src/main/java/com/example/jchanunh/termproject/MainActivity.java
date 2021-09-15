@@ -60,11 +60,11 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent i = new Intent(getApplicationContext(), DisplayContacts.class);
                 i.putExtra("selected_index", position);
-                if(textinput.isEmpty()){ //if text input is null, we display all contacts
+                if(textinput.isEmpty()){ //if text input is null, send normal list and number
                     i.putStringArrayListExtra("nameposition", phonebook);
                     i.putStringArrayListExtra("phonenumber", phonenumber);
                 }
-                else{
+                else{ //if text input is not null, we send the updated list and number. 
                     i.putStringArrayListExtra("nameposition", textinput);
                     i.putStringArrayListExtra("phonenumber", textinputnumber);
                 }
